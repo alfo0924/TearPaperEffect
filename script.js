@@ -36,11 +36,33 @@ class PaperTearEffect {
     }
 
     bindEvents() {
-        // 滑鼠事件
-        this.topLayer.addEventListener('mousedown', (e) => this.startTear(e));
-        this.topLayer.addEventListener('mousemove', (e) => this.continueTear(e));
-        this.topLayer.addEventListener('mouseup', () => this.endTear());
-        this.topLayer.addEventListener('mouseleave', () => this.endTear());
+        // 滑鼠事件 - 確保事件觸發
+        this.topLayer.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            this.startTear(e);
+        });
+        this.topLayer.addEventListener('mousemove', (e) => {
+            e.preventDefault();
+            this.continueTear(e);
+        });
+        this.topLayer.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            this.endTear();
+        });
+        this.topLayer.addEventListener('mouseleave', (e) => {
+            e.preventDefault();
+            this.endTear();
+        });
+
+        // 新增滑鼠懸停效果
+        this.topLayer.addEventListener('mouseenter', () => {
+            this.topLayer.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.2)';
+            this.topLayer.style.transform = 'scale(1.02)';
+        });
+        this.topLayer.addEventListener('mouseleave', () => {
+            this.topLayer.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9)';
+            this.topLayer.style.transform = 'scale(1)';
+        });
 
         // 觸控事件
         this.topLayer.addEventListener('touchstart', (e) => {
@@ -63,9 +85,10 @@ class PaperTearEffect {
 
     getEventPosition(e) {
         const rect = this.canvas.getBoundingClientRect();
+        // 修正座標計算，確保精確度
         return {
-            x: (e.clientX - rect.left) * (this.canvas.width / rect.width),
-            y: (e.clientY - rect.top) * (this.canvas.height / rect.height)
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
         };
     }
 
@@ -77,7 +100,7 @@ class PaperTearEffect {
         // 添加撕裂音效（視覺反饋）
         this.topLayer.style.transform = 'scale(0.98)';
         setTimeout(() => {
-            this.topLayer.style.transform = 'scale(1)';
+            this.topLayer.style.transform = 'scale(1.02)';
         }, 100);
     }
 
@@ -140,6 +163,8 @@ class PaperTearEffect {
 
         // 檢查是否撕裂足夠大
         this.checkTearCompletion();
+        // 重置懸停效果
+        this.topLayer.style.transform = 'scale(1)';
     }
 
     checkTearCompletion() {
