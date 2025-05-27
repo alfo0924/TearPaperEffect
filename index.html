@@ -1,20 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tearable Web</title>
+    <title>Interactive Paper Tear Effect</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
-    <div class="tearable-area">
-        <div class="content">
-            <h1>Tearable Content</h1>
-            <p>Drag your mouse to tear the content.</p>
+    <div class="paper-wrapper">
+        <div class="paper-layer" id="topLayer">
+            <div class="paper-content">
+                <h1>可撕裂的紙張效果</h1>
+                <p>點擊並拖動來撕裂這張紙</p>
+                <div class="decorative-elements">
+                    <div class="circle"></div>
+                    <div class="triangle"></div>
+                    <div class="square"></div>
+                </div>
+            </div>
+            <canvas id="tearCanvas"></canvas>
+        </div>
+
+        <div class="paper-layer" id="bottomLayer">
+            <div class="paper-content">
+                <h1>隱藏的內容</h1>
+                <p>恭喜！您成功撕開了紙張</p>
+                <div class="decorative-elements">
+                    <div class="star"></div>
+                    <div class="diamond"></div>
+                    <div class="hexagon"></div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div class="controls">
+        <button id="resetBtn">重置紙張</button>
+        <button id="autoTearBtn">自動撕裂</button>
+    </div>
+
+    <div class="instructions">
+        <p>🖱️ 點擊並拖動來撕裂紙張</p>
+        <p>📱 在觸控裝置上用手指拖動</p>
+    </div>
 </div>
+
 <script src="script.js"></script>
 </body>
 </html>
